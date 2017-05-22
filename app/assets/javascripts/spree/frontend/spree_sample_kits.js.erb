@@ -1,0 +1,8 @@
+$(document).ready(function(){
+
+  $('.add-sample-button').click(function(e){
+    e.preventDefault();
+    $('#sample_product_variant_id').val($(this).data('variant'));
+    $('#new_sample_product').submit();
+  });
+})

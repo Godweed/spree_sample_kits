@@ -1,0 +1,48 @@
+<% if can_sample?(@product) %>
+<button type="button" class="btn btn-secondary pull-right" data-toggle="modal" data-target="#sampleSelectModal">Available Samples</button>
+
+<!-- Modal -->
+<div id="sampleSelectModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <%= form_for Spree::SampleProduct.new do |f| %>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h1 class="modal-title">Select Your Sample</h1>
+      </div>
+      <div class="modal-body">
+
+          <div class="list-group">
+            <% @product.variants_and_option_values(current_currency).reject{|variant| variant.is_sample == false}.each_with_index do |variant, index| %>
+              <div class="list-group-item">
+                <%= f.radio_button :variant_id, variant.id, {:checked => index == 0}
+                      %>
+                  <%= f.label :variant_id, variant.id, :value => variant.id do %>
+                      <span class="variant-description">
+                        <%= variant_options variant %>
+                      </span>
+                      <% if variant_price variant %>
+                      <span class="price diff"><%= variant_price variant %></span>
+                      <% end %>
+                      <% unless variant.can_supply? %>
+                        <span class="out-of-stock"><%= Spree.t(:out_of_stock) %></span>
+                      <% end %>
+                  <% end %>
+              </div>
+            <% end %>
+          </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-default" data-dismiss="modal"><i class="bts bts-plus"></i> Cancel</button>
+        <button type="submit" class="btn btn-primary"><i class="bts bts-plus"></i> Add to Sample Kit</button>
+      </div>
+      <% end %>
+    </div>
+
+  </div>
+</div>
+<% end %>
+<!-- Trigger the modal with a button -->

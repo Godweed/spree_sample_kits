@@ -1,0 +1,112 @@
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12 margin-bottom-md">
+    <h1>Build your Sample Kit</h1>
+    <p>
+      There’s nothing like the real thing – so take advantage of our fire glass Sample Kit to see, touch, test and compare five to ten fire glass products.<br/>
+      Keep the samples for small DIY crafts, to fill decorative vases, or even to mix in your fire pit for some spice.
+    </p>
+  </div>
+</div>
+<div id="products" class="row" data-hook>
+  <div class="grid">
+
+    <div class="grid-sizer col-xs-6 col-sm-4 col-md-3"></div>
+    <% if @sample_kit.sample_products.any? %>
+
+    <% @sample_kit.sample_products.each do |sample_product| %>
+    <% product = sample_product %>
+    <% variant = sample_product.variant %>
+    <% url = spree.product_path(sample_product.variant.product) %>
+    <div id="product_<%= product.id %>" class="grid-item col-xs-6 col-sm-4 col-md-3 product-grid-item margin-bottom-md" data-hook="products_list_item" itemscope itemtype="https://schema.org/Product">
+      <div class="grid-item-content text-center">
+        <div class="text-center product-body">
+          <%= link_to url, itemprop: "url", :data=>{ :turbolinks => false } do %>
+          <%= sq_large_image(variant, itemprop: "image", alt: variant.name, class: 'img-responsive margin-bottom-sm') %>
+          <div class="margin-bottom-sm">
+            <% name_arr = variant.name.split(' ') %>
+            <% fixed_name = '' %>
+            <% name_arr.each_with_index do |word, i| %>
+            <% fixed_name = fixed_name + ' ' + word %>
+            <% if i == 1 && name_arr.length > 2 %>
+            <% fixed_name = fixed_name + "<br />" %>
+            <% elsif i == 0 && name_arr.length == 2 %>
+            <% fixed_name = fixed_name + "<br />" %>
+            <% end %>
+            <% end %>
+            <%= content_tag(:span, fixed_name.html_safe, class: 'info margin-bottom-sm', itemprop: "name", title: variant.name) %><br/>
+            <%= content_tag(:span, variant_options(variant), class: 'info margin-bottom-sm', itemprop: "name", title: variant.name) %>
+          </div>
+          <% end %>
+        </div>
+        <div class="margin-bottom-sm">
+          <%= form_for sample_product, :method => :PUT do |f| %>
+          <div class="col-md-9 col-sm-9 col-xs-12 margin-bottom-sm">
+            <div class="input-group">
+              <%= f.number_field :quantity, :value => sample_product.quantity, :min => 0, :class => 'form-control' %>
+              <span class="input-group-btn">
+                <button type="submit" class="btn btn-secondary">Update</button>
+              </span>
+            </div>
+          </div>
+          <% end %>
+          <div class="col-md-3 col-sm-3 col-xs-12 margin-bottom-sm">
+            <%= link_to sample_product, data: { confirm: 'Are you sure?', :turbolinks => false  }, method: :delete, class: "btn btn-block btn-primary" do %>
+            <i class="bts bt-times"></i>
+            <% end %>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <% end %>
+
+    <% end %>
+    <% unless (5 - @sample_kit.total_quantity) <= 0  %>
+    <div class="grid-item col-xs-6 col-sm-4 col-md-3 product-grid-item margin-bottom-md">
+
+
+      <div class="grid-item-content">
+          <%= link_to products_path, :title => 'Add More Samples!', :class => 'add-sample' do %>
+          <div class="content">
+              <h3>Add (<%=  5 - @sample_kit.total_quantity %>) More!<br/>
+              <i class="bts bt-plus"></i></h3>
+          </div>
+          <% end %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>
+<table class="table">
+  <tbody>
+    <tr>
+      <td class="text-right hidden-xs">
+        Samples:
+          <h1 class="inline"><%= @sample_kit.total_quantity %>
+          /
+          <strong>10</strong>
+        </h1>
+      </td>
+      <td class="text-right">
+        Total:
+          <h1 class="inline"><%= @sample_kit.display_total_price %></h1>
+      </td>
+      <td class="text-right">
+        <%= form_for @sample_kit, :url => sample_kit_clear_path(@sample_kit), :method => 'post', data: { confirm: 'Are you sure?'} do |f| %>
+        <%= f.submit 'Clear', :class => 'btn btn-secondary btn-md' %>
+        <% end %>
+      </td>
+      <td class="text-right">
+        <% if @sample_kit.total_quantity >= 5 %>
+        <%= form_for @sample_kit, :url => sample_kit_add_to_cart_path(@sample_kit), :method => 'post' do |f| %>
+        <%= f.submit 'Add to Cart', :class => 'btn btn-primary btn-md btn-block' %>
+        <% end %>
+      <% else %>
+        <%= button_tag 'Add to Cart', :class => 'btn btn-primary btn-md btn-block disabled', :title => 'test',:data => {:toggle => 'tooltip'} %>
+        <% end %>
+      </td>
+    </tr>
+  </tbody>
+</table>
