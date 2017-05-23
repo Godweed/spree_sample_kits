@@ -1,5 +1,9 @@
 <% if can_sample?(@product) %>
-<button type="button" class="btn btn-secondary pull-right" data-toggle="modal" data-target="#sampleSelectModal">Available Samples</button>
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <button type="button" class="btn btn-secondary pull-right" data-toggle="modal" data-target="#sampleSelectModal">Available Samples</button>
+  </div>
+</div>
 
 <!-- Modal -->
 <div id="sampleSelectModal" class="modal fade" role="dialog">
@@ -15,13 +19,13 @@
       <div class="modal-body">
 
           <div class="list-group">
-            <% @product.variants_and_option_values(current_currency).reject{|variant| variant.is_sample == false}.each_with_index do |variant, index| %>
+            <% @product.variants.each_with_index do |variant, index| %>
               <div class="list-group-item">
                 <%= f.radio_button :variant_id, variant.id, {:checked => index == 0}
                       %>
                   <%= f.label :variant_id, variant.id, :value => variant.id do %>
                       <span class="variant-description">
-                        <%= variant_options variant %>
+                        <%= @product.name %> - <%= variant_options variant %>
                       </span>
                       <% if variant_price variant %>
                       <span class="price diff"><%= variant_price variant %></span>
@@ -31,6 +35,23 @@
                       <% end %>
                   <% end %>
               </div>
+            <% end %>
+            <% if @product.can_sample? %>
+            <div class="list-group-item">
+              <%= f.radio_button :variant_id, @product.master.id, {:checked => @product.variants.blank? }
+                    %>
+                <%= f.label :variant_id, @product.master.id, :value => @product.master.id do %>
+                    <span class="variant-description">
+                      <%= @product.name %>
+                    </span>
+                    <% if variant_price @product.master  %>
+                    <span class="price diff"><%= variant_price @product.master %></span>
+                    <% end %>
+                    <% unless @product.master.can_supply? %>
+                      <span class="out-of-stock"><%= Spree.t(:out_of_stock) %></span>
+                    <% end %>
+                <% end %>
+            </div>
             <% end %>
           </div>
 

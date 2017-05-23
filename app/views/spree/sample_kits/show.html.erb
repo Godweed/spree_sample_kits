@@ -33,7 +33,7 @@
             <% fixed_name = fixed_name + "<br />" %>
             <% end %>
             <% end %>
-            <%= content_tag(:span, fixed_name.html_safe, class: 'info margin-bottom-sm', itemprop: "name", title: variant.name) %><br/>
+            <%= content_tag(:span, fixed_name.html_safe, class: 'info margin-bottom-sm', itemprop: "name", title: variant.name) %>
             <%= content_tag(:span, variant_options(variant), class: 'info margin-bottom-sm', itemprop: "name", title: variant.name) %>
           </div>
           <% end %>
