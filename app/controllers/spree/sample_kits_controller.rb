@@ -49,16 +49,22 @@ class Spree::SampleKitsController < Spree::StoreController
     if @order && @sample_kit
       Spree::PermittedAttributes.line_item_attributes << :sample_kit_id
       if @sample_kit.total_quantity >= 5
+
         @variant = Spree::Variant.where(:sku => 'SMP0001').take
-        @line_item = @order.contents.add(@variant, 1)
 
-        @line_item.sample_kit = @sample_kit
-        @line_item.save!
-        @sample_kit.line_item = @line_item
+        if @variant && @variant.can_supply?
+          @line_item = @order.contents.add(@variant, 1)
 
-        @order.contents.update_cart({})
+          @line_item.sample_kit = @sample_kit
+          @line_item.save!
+          @sample_kit.line_item = @line_item
 
+          @order.contents.update_cart({})
+        else
+          flash[:notice] = "Variant not found with SKU SMP0001, please ensure you have properly configured it in the admin dashboard."
+        end
         redirect_to cart_path
+
       else
         redirect_to @sample_kit
       end

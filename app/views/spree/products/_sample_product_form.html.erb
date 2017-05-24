@@ -19,7 +19,7 @@
       <div class="modal-body">
 
           <div class="list-group">
-            <% @product.variants.each_with_index do |variant, index| %>
+            <% @product.variants.reject{ |variant| variant.can_sample? == false}.each_with_index do |variant, index| %>
               <div class="list-group-item">
                 <%= f.radio_button :variant_id, variant.id, {:checked => index == 0}
                       %>
