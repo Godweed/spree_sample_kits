@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12 margin-bottom-md">
-    <h1>Build your Sample Kit</h1>
+    <h1>Request Samples (minimum 5 samples)</h1>
     <p>
-      There’s nothing like the real thing – so take advantage of our fire glass Sample Kit to see, touch, test and compare five to ten fire glass products.<br/>
+      There’s nothing like the real thing – so take advantage of our fire glass samples to see, touch, test and compare five to ten fire glass products.<br/>
       Keep the samples for small DIY crafts, to fill decorative vases, or even to mix in your fire pit for some spice.
     </p>
   </div>
@@ -63,14 +63,14 @@
     <% end %>
 
     <% end %>
-    <% unless (5 - @sample_kit.total_quantity) <= 0  %>
+    <% unless (10 - @sample_kit.total_quantity) <= 0  %>
     <div class="grid-item col-xs-6 col-sm-4 col-md-3 product-grid-item margin-bottom-md">
 
 
       <div class="grid-item-content">
           <%= link_to products_path, :title => 'Add More Samples!', :class => 'add-sample' do %>
           <div class="content">
-              <h3>Add (<%=  5 - @sample_kit.total_quantity %>) More!<br/>
+              <h3>Add More!<br/>
               <i class="bts bt-plus"></i></h3>
           </div>
           <% end %>
