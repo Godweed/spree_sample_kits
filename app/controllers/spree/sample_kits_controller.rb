@@ -1,13 +1,10 @@
 class Spree::SampleKitsController < Spree::StoreController
   include Spree::Core::ControllerHelpers::Order
-  before_filter :set_sample_kit, only: [:destroy, :show, :index, :add, :clear]
+  before_filter :set_sample_kit, only: [:destroy, :show, :index, :add, :clear, :build]
   before_filter :set_order, only: [:add]
 
-  def index
 
-  end
-
-  def show
+  def build
   end
 
   def new
@@ -39,7 +36,7 @@ class Spree::SampleKitsController < Spree::StoreController
       @sample_kit = Spree::SampleKit.new guest_token: cookies.signed[:guest_token]
     end
     if @success = @sample_kit.save
-      redirect_to @sample_kit
+      redirect_to sample_kit_build_path
     else
       render "new"
     end
@@ -66,10 +63,10 @@ class Spree::SampleKitsController < Spree::StoreController
         redirect_to cart_path
 
       else
-        redirect_to @sample_kit
+        redirect_to sample_kit_build_path
       end
     else
-      redirect_to @sample_kit
+      redirect_to sample_kit_build_path
     end
   end
 
@@ -78,7 +75,7 @@ class Spree::SampleKitsController < Spree::StoreController
       @sample_kit.destroy
       set_sample_kit
     end
-    redirect_to sample_kit_path(@sample_kit)
+    redirect_to sample_kit_build_path
   end
 
   private

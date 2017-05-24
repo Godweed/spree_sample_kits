@@ -17,9 +17,8 @@ class Spree::SampleProductsController < Spree::BaseController
         flash[:notice] = "Sorry, but sample kits may only contain 10 total samples at a time! Please remove some before trying again."
       end
 
-    respond_with(@sample_product) do |format|
-      format.html { redirect_to @sample_kit }
-    end
+
+    redirect_to sample_kit_build_path
   end
 
   def update
@@ -42,9 +41,7 @@ class Spree::SampleProductsController < Spree::BaseController
       end
     end
 
-    respond_with(@sample_product) do |format|
-      format.html { redirect_to @sample_kit }
-    end
+    redirect_to sample_kit_build_path
   end
 
   def destroy
@@ -52,7 +49,7 @@ class Spree::SampleProductsController < Spree::BaseController
     @sample_product.destroy
 
     respond_with(@sample_product) do |format|
-      format.html { redirect_to @sample_kit }
+      format.html { redirect_to sample_kit_build_path }
     end
   end
 
