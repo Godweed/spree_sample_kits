@@ -64,7 +64,7 @@
                   <% end %>
                 </td>
                 <td class="lead cart-item-description" data-hook="cart_item_description">
-                  SAMPLE #<%= index + 1 %>
+                  Sample #<%= index + 1 %>
                   <h4><%= link_to line_item.variant.name, product_path(variant.product) %></h4>
                   <%= "(" + variant.options_text + ")" unless variant.option_values.empty? %>
                 </td>

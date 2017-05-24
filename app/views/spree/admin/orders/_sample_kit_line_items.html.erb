@@ -34,12 +34,12 @@
                <% end %>
              </td>
              <% unless item.sample_kit.nil? %>
-             <% item.sample_kit.sample_products.each do |sample| %>
+             <% item.sample_kit.sample_products.each_with_index do |sample, index| %>
                <% variant = sample.variant %>
 
                  <tr class="line-item">
-                   <td class="line-item-image text-center">
-                     SAMPLE
+                   <td class="text-center">
+                     Sample #<%= index + 1 %>
                    </td>
                    <td class="line-item-image image text-center">
                        <%= link_to mini_image(variant.product, itemprop: "image", width: '115px'), variant.product %>
