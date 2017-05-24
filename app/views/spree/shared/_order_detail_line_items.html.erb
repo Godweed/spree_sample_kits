@@ -50,6 +50,8 @@
       </tr>
       <% end %>
 
+      <% unless item.sample_kit.nil? %>
+
         <% item.sample_kit.sample_products.each_with_index do |line_item, index| %>
           <% variant = line_item.variant %>
 
@@ -77,6 +79,7 @@
             </tr>
 
         <% end %>
+      <% end %>
     <% end %>
   </tbody>
   <tfoot id="order-total" data-hook="order_details_total">
