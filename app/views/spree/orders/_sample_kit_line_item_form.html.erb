@@ -1,7 +1,7 @@
 <%= order_form.fields_for :line_items, line_item do |item_form| %>
 <tr class="line-item line-item-sample-kit">
   <td class="cart-item-description" data-hook="cart_sample_item_description">
-    <h4><%= line_item.variant.name %></h4>
+    <h4><i class="btl bt-th"></i> <%= line_item.variant.name %></h4>
 
   </td>
   <td>
@@ -27,10 +27,10 @@
     <% variant = line_item.variant %>
 
       <tr class="line-item" id="sample_<%= index %>">
-          <td>
+          <td class="text-right">
             Sample #<%= index + 1 %>
           </td>
-          <td class="cart-item-image" data-hook="cart_item_image">
+          <td class="cart-item-image text-right" data-hook="cart_item_image">
             <% if variant.images.length == 0 %>
               <%= link_to sq_medium_image(variant.product, itemprop: "image", width: '115px'), variant.product %>
             <% else %>
